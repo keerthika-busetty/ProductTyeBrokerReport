@@ -2,7 +2,9 @@
 using TradingReport.Data;
 using TradingReport.Interface;
 using TradingReprot.Interface;
+using System.Configuration;
 using Unity;
+
 
 namespace TradingReport
 {
@@ -20,7 +22,8 @@ namespace TradingReport
             }
 
             // var myObj = Activator.CreateInstance(Type.GetType("TradingReport.Broker" + "." + type+"Broker"+Broker), new object[] { new FXForwardsData() });
-            var myObj = Activator.CreateInstance(Type.GetType("TradingReport.Broker" + "." + type + "Broker" + Broker), new object[] { container.Resolve<ILoad>() });
+            //var myObj = Activator.CreateInstance(Type.GetType("TradingReport.Broker" + "." + type + "Broker" + Broker), new object[] { container.Resolve<ILoad>() });
+            var myObj = Activator.CreateInstance(Type.GetType(string.Format(ConfigurationManager.AppSettings["TradingReportName"],type,Broker)), new object[] { container.Resolve<ILoad>() });
             IReport reportObj = (IReport)myObj;
 
             report = reportObj;
