@@ -23,7 +23,13 @@ namespace TradingReport
 
             // var myObj = Activator.CreateInstance(Type.GetType("TradingReport.Broker" + "." + type+"Broker"+Broker), new object[] { new FXForwardsData() });
             //var myObj = Activator.CreateInstance(Type.GetType("TradingReport.Broker" + "." + type + "Broker" + Broker), new object[] { container.Resolve<ILoad>() });
-            var myObj = Activator.CreateInstance(Type.GetType(string.Format(ConfigurationManager.AppSettings["TradingReportName"],type,Broker)), new object[] { container.Resolve<ILoad>() });
+            object myObj = default(object);
+            if (ConfigurationManager.AppSettings["TradingReportName"] != null)
+            
+                 myObj = Activator.CreateInstance(Type.GetType(string.Format(ConfigurationManager.AppSettings["TradingReportName"], type, Broker)), new object[] { container.Resolve<ILoad>() });
+            
+            else
+                myObj = Activator.CreateInstance(Type.GetType("TradingReport.Broker" + "." + type + "Broker" + Broker), new object[] { container.Resolve<ILoad>() });
             IReport reportObj = (IReport)myObj;
 
             report = reportObj;
